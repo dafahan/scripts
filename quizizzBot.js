@@ -1,3 +1,5 @@
+const pin = '00158336'; // Replace with your desired pin
+
 (async function () {
     // Function to fetch and categorize Quizizz answers using an API
     async function fetchAndCategorizeQuizizzAnswers(pin) {
@@ -72,14 +74,26 @@
         return questionTextElement ? questionTextElement.textContent.trim() : "";
     }
 
-    // Clicks the answer for single-choice questions
     function clickTextAnswer(answer) {
-        const options = [...document.querySelectorAll('[data-cy^="option-"]')];
-        const option = options.find((opt) => opt.textContent.trim() === answer);
+        // Query all buttons with 'option' class
+        const options = [...document.querySelectorAll('button.option')];
+    
+        if (!options.length) {
+            console.error("No options found!");
+            return;
+        }
+    
+        // Find the option where the inner text matches the answer
+        const option = options.find((opt) => {
+            const textElement = opt.querySelector('p'); // Target the <p> tag within the option
+            return textElement && textElement.textContent.trim() === answer;
+        });
+    
         if (option) {
-            option.click();
+            option.click(); // Click the matched option
+            console.log(`Clicked option: "${answer}"`);
         } else {
-            console.error("Answer not found:", answer);
+            console.error(`Answer not found: "${answer}"`);
         }
     }
 
@@ -127,7 +141,6 @@
         }
     }
 
-    const pin = 235907; // Replace with your desired pin
     const questions = await fetchAndCategorizeQuizizzAnswers(pin);
 
     const answeredQuestions = new Set();
