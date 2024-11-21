@@ -178,7 +178,7 @@ const pin = '00158336'; // Replace with your desired pin
             answeredQuestions.add(currentQuestion);
 
             // Wait for the next question to render
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            await new Promise((resolve) => setTimeout(resolve, 3000));
         } catch (error) {
             console.error("Error while processing question:", error);
             break;
